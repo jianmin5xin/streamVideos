@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(email, password) {
       try {
-        const response = await axios.post('/api/login', { email, password })
+        const response = await axios.post('http://localhost:3000/api/login', { email, password })
         this.user = response.data.user
         this.token = response.data.token
         localStorage.setItem('token', this.token) // 登录成功后保存 token
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
     },
     async register(email, username, password) {
       try {
-        const response = await axios.post('/api/register', { email, username, password })
+        const response = await axios.post('http://localhost:3000/api/register', { email, username, password })
         this.user = response.data.user // 假设后端返回用户信息
         // 注册成功后可能需要登录
         await this.login(email, password) // 自动登录
