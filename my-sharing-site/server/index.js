@@ -91,5 +91,21 @@ app.get('/api/user', async (req, res) => {
   }
 })
 
+// 获取帖子接口
+app.get('/api/posts', async (req, res) => {
+    const token = req.headers.authorization?.split(' ')[1]
+    if (!token) {
+      return res.status(401).json({ message: '未提供 token' })
+    }
+  
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
+      const [posts] = await db.query('SELECT * FROM posts WHERE user_id = ?', [decoded.id])
+      res.json(posts)
+    } catch (error) {
+      res.status(401).json({ message: '无效 token 或获取帖子失败', error: error.message })
+    }
+  })
+
 // 确保所有路由都支持 CORS
 app.listen(3000, () => console.log('Server running on port 3000'))

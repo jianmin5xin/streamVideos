@@ -39,7 +39,9 @@
   }
   
   onMounted(() => {
-    store.fetchPosts()
+    if (store.isAuthenticated()) {
+    store.fetchPosts() // 这里调用 fetchPosts，可能是第 42 行
+  }
   })
 
   // 处理退出登录的函数

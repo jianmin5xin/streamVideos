@@ -41,6 +41,17 @@ export const useUserStore = defineStore('user', {
         }
       }
     },
+    async fetchPosts() { // 添加 fetchPosts 方法
+        try {
+          const response = await axios.get('http://localhost:3000/api/posts', {
+            headers: { Authorization: `Bearer ${this.token}` }
+          })
+          this.posts = response.data // 将后端返回的帖子数据存储到 state.posts
+        } catch (error) {
+          console.error('获取帖子失败', error)
+          throw new Error('无法加载帖子: ' + error.message)
+        }
+      },
     logout() {
       this.user = null
       this.token = ''
