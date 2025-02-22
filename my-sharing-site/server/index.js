@@ -25,14 +25,26 @@ const db = mysql.createPool({
   database: 'sharing_site'
 })
 
-// 文件上传配置
+// 配置 multer 用于处理文件上传
 const storage = multer.diskStorage({
-  destination: 'uploads/',
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + '-' + file.originalname)
-  }
-})
-const upload = multer({ storage })
+    destination: function (req, file, cb) {
+        cb(null, 'uploads/'); // 上传文件的存储目录
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname); // 文件名
+    }
+});
+
+const upload = multer({ storage: storage });
+
+// 处理文件上传的路由
+app.post('/api/upload', upload.single('file'), (req, res) => {
+    if (req.file) {
+        res.status(200).json({ message: '文件上传成功' });
+    } else {
+        res.status(400).json({ message: '文件上传失败' });
+    }
+});
 
 // 注册
 app.post('/api/register', async (req, res) => {

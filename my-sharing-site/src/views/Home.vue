@@ -28,16 +28,20 @@
   const router = useRouter()
   
   let selectedFile = null
-
-  
   const handleFileUpload = (event) => {
     selectedFile = event.target.files[0]
   }
-  
-  const upload = () => {
-    if (selectedFile) store.uploadContent(selectedFile)
-  }
-  
+  const upload = async () => {
+    if (selectedFile) {
+        try {
+            await store.uploadContent(selectedFile);
+            console.log('文件上传成功');
+        } catch (error) {
+            console.error('文件上传失败', error);
+            // 可以在这里显示错误信息给用户
+        }
+    }
+}
   onMounted(() => {
     if (store.isAuthenticated()) {
     store.fetchPosts() // 这里调用 fetchPosts，可能是第 42 行
