@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
   actions: {
     async login(email, password) {
       try {
-        const response = await axios.post('http://localhost:3000/api/login', { email, password })
+        const response = await axios.post('api/api/login', { email, password })
         this.user = response.data.user
         this.token = response.data.token
         localStorage.setItem('token', this.token) // 登录成功后保存 token
@@ -20,7 +20,7 @@ export const useUserStore = defineStore('user', {
     },
     async register(email, username, password) {
       try {
-        const response = await axios.post('http://localhost:3000/api/register', { email, username, password })
+        const response = await axios.post('api/api/register', { email, username, password })
         this.user = response.data.user // 假设后端返回用户信息
         // 注册成功后可能需要登录
         await this.login(email, password) // 自动登录
@@ -31,7 +31,7 @@ export const useUserStore = defineStore('user', {
     async fetchUser() {
       if (this.token) {
         try {
-          const response = await axios.get('/api/user', {
+          const response = await axios.get('api/api/user', {
             headers: { Authorization: `Bearer ${this.token}` }
           })
           this.user = response.data.user
@@ -43,7 +43,7 @@ export const useUserStore = defineStore('user', {
     },
     async fetchPosts() { // 添加 fetchPosts 方法
         try {
-          const response = await axios.get('http://localhost:3000/api/posts', {
+          const response = await axios.get('api/api/posts', {
             headers: { Authorization: `Bearer ${this.token}` }
           })
           this.posts = response.data // 将后端返回的帖子数据存储到 state.posts
