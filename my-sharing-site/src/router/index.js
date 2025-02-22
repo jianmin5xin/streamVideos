@@ -1,5 +1,6 @@
 // src/router/index.js
 import { createRouter, createWebHistory } from 'vue-router'
+import Upload from '../views/upload.vue' // 修改为 Upload.vue
 import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue' // 新增注册页面
@@ -10,7 +11,12 @@ const routes = [
   {
     path: '/home',
     name: 'Home',
-    component: Home,
+    component: Home
+  },
+  {
+    path: '/upload',
+    name: 'Upload',
+    component: Upload,
     meta: { requiresAuth: true } // 需登录
   },
   {
