@@ -45,7 +45,7 @@
   const handleLogin = async () => {
     try {
       await userStore.login(email.value, password.value)
-      router.push('/home') // 登录成功后跳转到 /home
+      router.push('/profile') // 登录成功后跳转到 /profile 页面
     } catch (err) {
       error.value = err.message || '登录失败，请检查邮箱和密码'
       console.error(err)
